@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>Breakout!</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+<style>
+h1 {text-align: center; font-family: sans-serif;}
+h3 {text-align: center; font-family: sans-serif;}
+</style>
+</head>
+<body>
+<h1>Breakout, p5.js</h1>
+<h3>Breakout game hosted online</h3>
+<script>
+    var ballYSpeed = 5;
+    // What's up. I see you looked at inspect element.
+    function setup() {
+      // Creates the canvas based on window size
+      const cnvWidth = windowWidth-30;
+      const cnvHeight = windowHeight-140;
+      // Determintes the location of the stick
+      stickY = cnvHeight/2;
+      ballX = cnvWidth/2;
+      ballY = cnvHeight-600;
+      width = cnvWidth;
+      height = cnvHeight;
+      // Creates the canvas
+      createCanvas(cnvWidth, cnvHeight);
+      /* Logs the canvas width and height (not needed anymore)
+      console.log(cnvWidth)
+      console.log(cnvHeight)*/
+      // start button
+    }
+    function draw() {
+      var collide = [mouseX-50,mouseX-49,mouseX-48,mouseX-47,mouseX-46,mouseX-45,mouseX-44,mouseX-43,mouseX-42,mouseX-41,mouseX-40,mouseX-39,mouseX-38,mouseX-37,mouseX-36,mouseX-35,mouseX-34,mouseX-33,mouseX-32,mouseX-31,mouseX-30,mouseX-29,mouseX-28,mouseX-27,
+      mouseX-26,mouseX-25,mouseX-24,mouseX-23,mouseX-22,mouseX-21,mouseX-20,mouseX-19,mouseX-18,mouseX-17,mouseX-16,mouseX-15,mouseX-14,mouseX-13,mouseX-12,mouseX-11,mouseX-10,mouseX-9,mouseX-8,mouseX-7,mouseX-6,mouseX-5,mouseX-4,mouseX-3,mouseX-2,mouseX-1,
+    mouseX,mouseX+1,mouseX+2,mouseX+3,mouseX+4,mouseX+5,mouseX+6,mouseX+7,mouseX+8,mouseX+9,mouseX+10,mouseX+11,mouseX+12,mouseX+13,mouseX+14,mouseX+15,mouseX+16,mouseX+17,mouseX+18,mouseX+19,mouseX+20,mouseX+21,mouseX+22,mouseX+23,mouseX+24,mouseX+25,mouseX+26
+  ,mouseX+27,mouseX+28,mouseX+29,mouseX+30,mouseX+31,mouseX+32,mouseX+33,mouseX+34,mouseX+35,mouseX+36,mouseX+37,mouseX+38,mouseX+39,mouseX+40,mouseX+41,mouseX+42,mouseX+43,mouseX+44,mouseX+45,mouseX+46,mouseX+47,mouseX+48,mouseX+49,mouseX+50]
+      var n = collide.includes(ballX);
+      var stickXLeft = mouseX-50;
+      var stickXRight = mouseX+50;
+      background(220);
+      var stickX = mouseX-50;
+      let block = {
+        range: 0,
+        blockX: 0,
+        blockY: 50,
+        blockSize: 50,
+        blok: function(){
+          while(this.range < 15){
+            this.range++;
+            rect(this.blockX+50,this.blockY,this.blockSize,this.blockSize)
+            rect(this.blockX+50,this.blockY,this.blockSize,this.blockSize)
+            }
+          }
+        }
+      block.blok()
+   // ball
+      fill(255,0,0);
+      ellipse(ballX,ballY,25,25);
+      fill(255,255,255);
+   // Stick
+      rect(mouseX-50,stickY+200,100,20);
+  // ball movement and bounce detection
+      ballY += ballYSpeed;
+      if(ballY+10 >= stickY+200 && ballY+10 <= stickY+210 && n === true){
+        ballYSpeed -= ballYSpeed*2;
+      }
+      else if (ballY+10 === stickY+220 && ballY+10 >= stickY+210 && n === true){
+        ballYSpeed += ballYSpeed*2;
+      }
+      else if (ballY-10 <= 0){
+        ballYSpeed += ballYSpeed*-2;
+      }
+      else if (ballY+10 >= height){
+        ballYSpeed -= ballYSpeed*2
+      }
+    }
+</script>
+</body>
+</html>
