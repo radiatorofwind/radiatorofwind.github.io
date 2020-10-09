@@ -10,73 +10,233 @@ h3 {text-align: center; font-family: sans-serif;}
 </style>
 </head>
 <body>
-<h1>Breakout, p5.js</h1>
-<h3>Breakout game hosted online</h3>
+<h1>Falling ball game, p5.js</h1>
+<h3>Thing I made a while ago.</h3>
 <script>
-    var ballYSpeed = 5;
-    // What's up. I see you looked at inspect element.
     function setup() {
-      // Creates the canvas based on window size
-      const cnvWidth = windowWidth-30;
-      const cnvHeight = windowHeight-140;
-      // Determintes the location of the stick
-      stickY = cnvHeight/2;
-      ballX = cnvWidth/2;
-      ballY = cnvHeight-600;
-      width = cnvWidth;
-      height = cnvHeight;
-      // Creates the canvas
-      createCanvas(cnvWidth, cnvHeight);
-      /* Logs the canvas width and height (not needed anymore)
-      console.log(cnvWidth)
-      console.log(cnvHeight)*/
-      // start button
+
+}
+var x = 400;
+var y = 500;
+const grav = 1; // const means constant, or variable won't change
+var timer = 0;
+var ys = 0;
+var objectx = random(1,849);
+var objecty = -100;
+var objectsize = random(50,150);
+var counter = 0;
+var highscore = 0;
+var speed = 100;
+function draw() {
+    background(153, 255, 51);
+    if(counter > 10){
+        background(255, 255, 0);
     }
-    function draw() {
-      var collide = [mouseX-50,mouseX-49,mouseX-48,mouseX-47,mouseX-46,mouseX-45,mouseX-44,mouseX-43,mouseX-42,mouseX-41,mouseX-40,mouseX-39,mouseX-38,mouseX-37,mouseX-36,mouseX-35,mouseX-34,mouseX-33,mouseX-32,mouseX-31,mouseX-30,mouseX-29,mouseX-28,mouseX-27,
-      mouseX-26,mouseX-25,mouseX-24,mouseX-23,mouseX-22,mouseX-21,mouseX-20,mouseX-19,mouseX-18,mouseX-17,mouseX-16,mouseX-15,mouseX-14,mouseX-13,mouseX-12,mouseX-11,mouseX-10,mouseX-9,mouseX-8,mouseX-7,mouseX-6,mouseX-5,mouseX-4,mouseX-3,mouseX-2,mouseX-1,
-    mouseX,mouseX+1,mouseX+2,mouseX+3,mouseX+4,mouseX+5,mouseX+6,mouseX+7,mouseX+8,mouseX+9,mouseX+10,mouseX+11,mouseX+12,mouseX+13,mouseX+14,mouseX+15,mouseX+16,mouseX+17,mouseX+18,mouseX+19,mouseX+20,mouseX+21,mouseX+22,mouseX+23,mouseX+24,mouseX+25,mouseX+26
-  ,mouseX+27,mouseX+28,mouseX+29,mouseX+30,mouseX+31,mouseX+32,mouseX+33,mouseX+34,mouseX+35,mouseX+36,mouseX+37,mouseX+38,mouseX+39,mouseX+40,mouseX+41,mouseX+42,mouseX+43,mouseX+44,mouseX+45,mouseX+46,mouseX+47,mouseX+48,mouseX+49,mouseX+50]
-      var n = collide.includes(ballX);
-      var stickXLeft = mouseX-50;
-      var stickXRight = mouseX+50;
-      background(220);
-      var stickX = mouseX-50;
-      let block = {
-        range: 0,
-        blockX: 0,
-        blockY: 50,
-        blockSize: 50,
-        blok: function(){
-          while(this.range < 15){
-            this.range++;
-            rect(this.blockX+50,this.blockY,this.blockSize,this.blockSize)
-            rect(this.blockX+50,this.blockY,this.blockSize,this.blockSize)
-            }
-          }
+    if(counter > 20){
+        background(255, 0, 0);
+    }
+    if(counter > 30){
+        background(204, 0, 0);
+    }
+    if(counter > 40){
+        background(128, 0, 0);
+    }
+    if(counter > 50){
+        background(255, 0, 102);
+    }
+    if(counter > 60){
+        background(102, 0, 102);
+    }
+    if(counter > 70){
+        background(153, 153, 102);
+    }
+    if(counter > 80){
+        background(102, 51, 0);
+    }
+    if(counter > 90){
+        background(0, 51, 0);
+    }
+    if(counter > 100){
+        background(0,0,0);
+        fill(255,255,255);
+        text("Cheater...",50,100);
+        fill(0,0,0);
+    }
+    if(counter > 150){
+        fill(255,255,255);
+        text("Epilepsey warning!\nFlashing lights at 200!",50,150);
+        fill(0,0,0);
+    }
+    if(counter > 200){
+        background(random(255),random(255),random(255))
+    }
+    if(counter > 1000){
+        background(0,0,0);
+        fill(255,255,255);
+        text("Congratulations! You've beaten\nthe game.",550,150);
+        fill(0,0,0);
+    }
+    if(counter > 1100){
+        background(random(255),random(255),random(255));
+        fill(255,255,255);
+        text("SIKE! >:D",550,150);
+    }
+    if(counter > 1150){
+        background(0,0,0);
+        text("Nah, for real. Nice job.\nGo to the ball\n to play again!",540,160);
+    }
+    textSize(40);
+    fill(102, 204, 255);
+    rect(x,y,50,50);
+    fill(255,255,255);
+    if(keyIsDown(39)){
+        x = x + 5;
+    }
+    if(keyIsDown(37)){
+        x = x - 5;
+    }
+    if(keyIsDown(69)){
+        x = x + 10;
+        speed = speed - 0.5;
+    }
+    if(keyIsDown(81)){
+        x = x - 10;
+        speed = speed - 0.5;
+    }
+    if(speed <= 0){
+        x = x 
+    }
+    if(keyIsDown(38)){
+        //y = y - 100
+        if(timer <= 2){
+            timer = timer + 1;
+            ys = -15;
         }
-      block.blok()
-   // ball
-      fill(255,0,0);
-      ellipse(ballX,ballY,25,25);
-      fill(255,255,255);
-   // Stick
-      rect(mouseX-50,stickY+200,100,20);
-  // ball movement and bounce detection
-      ballY += ballYSpeed;
-      if(ballY+10 >= stickY+200 && ballY+10 <= stickY+210 && n === true){
-        ballYSpeed -= ballYSpeed*2;
-      }
-      else if (ballY+10 === stickY+220 && ballY+10 >= stickY+210 && n === true){
-        ballYSpeed += ballYSpeed*2;
-      }
-      else if (ballY-10 <= 0){
-        ballYSpeed += ballYSpeed*-2;
-      }
-      else if (ballY+10 >= height){
-        ballYSpeed -= ballYSpeed*2
-      }
     }
+    y = y + ys;
+    ys = ys + grav;
+    if(y > 500){
+    y = 500;
+    timer = 0;
+    }
+    textSize(2);
+    text(ys,100,100);
+    text(timer,200,100);//enemy stuff coming down beyond this
+    fill(255,0,0);
+    stroke(255,255,255);
+    strokeWeight(5);
+    if(counter > 20){
+        fill(153,255,51);
+    }
+    ellipse(objectx,objecty,objectsize,objectsize);
+    strokeWeight(1);
+    stroke(0,0,0);
+    fill(0,0,0);
+    objecty = objecty + 5;
+    if(objecty >= 650){
+        objecty = -100;
+        counter = counter + 1;
+        objectx = random(1,849);
+        objectsize = random(50,150);
+    }
+    if(x > 800){
+        x = 800;
+    }
+    if(x < 0){
+        x = 0;
+    }
+    //if()
+    highscore = counter;
+    if(dist(x,y,objectx,objecty)<40){
+        objecty = 50;
+        highscore = highscore;
+        objectx = random(1,849);
+        x = 400;
+        y = 500;
+    }
+    if(counter > 5){
+        objecty = objecty + 5.05;
+    }
+    if(counter > 10){
+        objecty = objecty + 5.1;
+    }
+    if(counter > 15){
+        objecty = objecty + 5.15;
+    }
+    if(counter > 20){
+        objecty = objecty + 5.2;
+    }
+    if(counter > 25){
+        objecty = objecty + 5.25;
+    }
+    if(counter > 30){
+        objecty = objecty + 5.3;
+    }
+    if(counter > 35){
+        objecty = objecty + 5.35;
+    }
+    if(counter > 40){
+        objecty = objecty + 5.4;
+    }
+    if(counter > 45){
+        objecty = objecty + 5.45;
+    }
+    if(counter > 50){
+        objecty = objecty + 5.5;
+    }
+    if(counter > 55){
+        objecty = objecty + 5.55;
+    }
+    if(counter > 60){
+        objecty = objecty + 5.6;
+    }
+    if(counter > 65){
+        objecty = objecty + 5.65;
+    }
+    if(counter > 70){
+        objecty = objecty + 5.7;
+    }
+    if(counter > 75){
+        objecty = objecty + 5.75;
+    }
+    if(counter > 80){
+        objecty = objecty + 5.8;
+    }
+    if(counter > 85){
+        objecty = objecty + 5.85;
+    }
+    if(counter > 90){
+        objecty = objecty + 5.9;
+    }
+    if(counter > 95){
+        objecty = objecty + 5.95;
+    }
+    if(counter > 100){
+        objecty = objecty + 6;
+    }
+    if(counter > 200){
+        objecty = objecty + 30;
+    }
+    if(counter > 500){
+        objecty = objecty + 100;
+    }
+    if(counter > 1000){
+        objecty = objecty + 5;
+    }
+    if(counter > 1100){
+        objecty = objecty + 30;
+    }
+    if(counter > 1150){
+        objecty = 500;
+        objectx = 50;
+    }
+    textSize(30);
+    fill(0,0,0);
+    if(counter > 40){
+        fill(255,255,255);
+    }
+    text("You have dodged " + counter + " balls.",50,50);
+    text("Current speed of balls:\n" + objecty + ".\nThat's fast!",540,50);
 </script>
 </body>
 </html>
