@@ -1,4 +1,4 @@
 # radiatorofwind.github.io
 
-Simple breakout game.
+A few different test games.
 More coming to the website later.
