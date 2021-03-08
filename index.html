@@ -1,77 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset='utf-8'>
-<title>Test Site!</title>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>-->
+<title>Welcome!</title>
+<meta charset="utf-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
 <style>
-h1 {text-align: center; font-family: sans-serif;}
-h3 {text-align: center; font-family: sans-serif;}
+.topbutton {
+	margin-left:auto;
+	margin-right:auto;
+	border: none; 
+	color: white; 
+	text-align: center; 
+	background-color: #029bc9; 
+	padding: 15px 32px; 
+	border-radius: 10px; 
+	font-size: 30px;
+	width: 300px;
+	outline: none;
+}
+.topbutton:hover {
+	background-color: #00789c;
+	cursor: pointer;
+}
+.topbutton:active {
+	background-color: #005873;
+	cursor: pointer;
+}
+.adobescreen {
+	position: absolute;
+	border: none; 
+	color: #646464; 
+	text-align: center;
+	font-family: Arial, sans-serif;
+	background-color: #f7f7f7;
+	font-size: 15px;
+	width: 300px;
+	outline: none;
+}
+.adobescreen:hover {
+	cursor: pointer;
+}
+.flashtext {
+	margin-top: 350px;
+}
 </style>
 </head>
 <body>
-<h1>Welcome!</h1>
-<h3>Welcome to the website. This is mostly for anything right now, but there may be more to come later.</h3>
-<!--
+<!-- web page in here -->
 <script>
-    function setup() {
-      // Creates the canvas based on window size
-      const cnvWidth = windowWidth-30;
-      const cnvHeight = windowHeight-140;
-	  W = 87;
-	  S = 83;
-	  A = 65;
-	  D = 68;
-      // Determintes the location of the rect
-      rectX = cnvWidth/2;
-      rectY = cnvHeight-51;
-      width = cnvWidth;
-      height = cnvHeight;
-	  lineX = mouseX;
-	  lineY = mouseY;
-      // Creates the canvas
-      createCanvas(cnvWidth, cnvHeight);
-	  console.log(width-width);
-	  console.log(height-100);
-	  console.log(width+500);
-	  console.log(height-100);
-      /* Logs the canvas width and height (not needed anymore)
-      console.log(cnvWidth)
-      console.log(cnvHeight)*/
-      // start button
-    }
-	function ball() {
-		fill(255,255,255);
-		rect(rectX,rectY,50,50); // main rect
+function setup(){
+	ready = false
+	cnvWidth = windowWidth-20;
+	cnvHeight = windowHeight-20;
+	centerW = cnvWidth/2
+	centerH = cnvHeight/2
+	createCanvas(cnvWidth,cnvHeight);
+	background(230,230,230);
+	fill(247,247,247);
+	textSize(30);
+	adobescreen = createDiv("<img src='https://cdn.discordapp.com/attachments/752897928149860425/795593312760758282/Screenshot_2021-01-04_020259.png' id='puzzlepiece' class='flashtext'>\n<p id='flexperience' style='margin-top: 2px;'>Click to enable Adobe Flash Player</p>");
+	adobescreen.position(8.25,8.25);
+	adobescreen.class("adobescreen");
+	adobescreen.id("adobescreens");
+	adobescreen.style("height: " + cnvHeight + "px;");
+	adobescreen.style("width: " + cnvWidth + "px;")
+	document.getElementById("adobescreens").onclick = function(){removeScreen()}
+	UP = 38;
+	DOWN = 40;
+	LEFT = 37;
+	RIGHT = 39;
+	W = 87;
+	A = 65;
+	S = 83;
+	D = 68;
+	ellipseX = centerW
+	ellipseY = centerH
+	ellipseSpeed = 5;
+	ellipseDiameter = 50;
+}
+function deleteButton(){
+	//testbutton.hide();
+	setTimeout(function(){
+		testbutton.show();
+	}, 5000)
+}
+function removeScreen(){
+document.getElementById("flexperience").remove();
+document.getElementById("puzzlepiece").remove();
+setTimeout(function(){
+document.getElementById("adobescreens").remove();
+ready = true
+},500);
+}
+function draw(){
+	if(ready == true){
+		keyPress();
+		background(230,230,230);
+		fill(255,0,0);
+		noStroke();
+		ellipse(ellipseX,ellipseY,ellipseDiameter,ellipseDiameter); // main character
+		stroke(0,0,0);
+		// collision detection
+		if(ellipseX+ellipseDiameter >= cnvWidth+25){
+			ellipseX = cnvWidth-25;
+		}else if(ellipseX-ellipseDiameter <= (cnvWidth-cnvWidth)-25){
+			ellipseX = (cnvWidth-cnvWidth)+25;
+		}else if(ellipseY+ellipseDiameter >= cnvHeight+25){
+			ellipseY = cnvHeight-25;
+		}else if(ellipseY-ellipseDiameter <= (cnvHeight-cnvHeight)-25){
+			ellipseY = (cnvHeight-cnvHeight)+25;
+		} // known bugs: moving into corner phases ball through wall.
+	}else{
+		return;
 	}
-    function draw() {
-      background(220);
-	  // ground
-	  line(width-width,height,width,height);
-      ball();
-	  // key press
-	  if (keyIsDown(A)){
-	  rectX = rectX - 5;
-	  }else if (keyIsDown(D)){
-	  rectX = rectX + 5;
-	  }
-	  // mouse
-	  if (mouseIsPressed) {
-	  strokeWeight(15);
-	  stroke(255,0,0);
-	  line(rectX+25,rectY+25,mouseX,mouseY);
-	  stroke(0,0,0);
-	  strokeWeight(1);
-	  }
-	  // collision detection
-	  if (rectX <= width-width) {
-		console.log("bruh")
-	  }else if (rectX+50 >= width) {
-		console.log("moment");
-		rectX = rectX + 0;
-	  }
-    }
+}
+function keyPress(){
+	if(ready == true){ // key press detection
+		if (keyIsDown(UP) || keyIsDown(W)){
+			ellipseY -= ellipseSpeed;
+			return false;
+		}if(keyIsDown(DOWN) || keyIsDown(S)){
+			ellipseY += ellipseSpeed;
+			return false;
+		}if(keyIsDown(LEFT) || keyIsDown(A)){
+			ellipseX -= ellipseSpeed;
+			return false;
+		}if(keyIsDown(RIGHT) || keyIsDown(D)){
+			ellipseX += ellipseSpeed;
+			return false;
+		}
+	}else{
+		return;
+	}
+	}
 </script>
--->
 </body>
 </html>
